@@ -1,7 +1,7 @@
 ;; TRG MONEY ICO CODE
 
 
-int limit_init() asm "50000000000000000 PUSHINT";
+int limit_init() asm "50000000000000000 PUSHINT"; ;; 50 mln jetton limit
 
 int op::transfer() asm "0xf8a7ea5 PUSHINT";
 int op::transfer_notification() asm "0x7362d09c PUSHINT";
@@ -50,20 +50,20 @@ slice calculate_user_jetton_wallet_address(slice owner_address, slice jetton_mas
 }
 
 
-slice msg_witraw() asm "<b 124 word Witraw ton ot prodazhi trg coins| $, b> <s PUSHSLICE";
+slice msg_witraw() asm "<b 124 word Withdraw ton ot prodazhi trg coins| $, b> <s PUSHSLICE"; ;; withdraw message
 
 
 
 (int, slice, cell, cell, int, int, int) load_data() inline {
   slice ds = get_data().begin_parse();
   return (
-      ds~load_coins(), 
-      ds~load_msg_addr(),
-      ds~load_ref(), 
-      ds~load_ref(), 
-      ds~load_coins(),
-      ds~load_coins(),
-      ds~load_uint(32)
+      ds~load_coins(),  ;; total supply
+      ds~load_msg_addr(), ;; admin
+      ds~load_ref(), ;; content
+      ds~load_ref(), ;; code
+      ds~load_coins(), ;; price
+      ds~load_coins(), ;; limit
+      ds~load_uint(32) ;; time end
   );
 }
 
@@ -105,8 +105,11 @@ slice msg_witraw() asm "<b 124 word Witraw ton ot prodazhi trg coins| $, b> <s P
     (int total_supply, slice admin_address, cell content, cell jetton_wallet_code, int price, int limit, int end) = load_data();
 
     if (in_msg_body.slice_empty?()) { ;; buy trg for Toncoin
-      if(total_supply >= limit) {
+      if(total_supply >= limit) { ;; check limit
           throw(4122);
+      }
+      if (now() >= end) { ;; check time
+        throw(4123);
       }
       int amount = 50000000; ;; 0.05 TON for mint message
       int buy_amount = msg_value - amount;
@@ -169,7 +172,7 @@ slice msg_witraw() asm "<b 124 word Witraw ton ot prodazhi trg coins| $, b> <s P
         return ();  
     }
 
-    if (op == 123) { ;; witraw toncoins
+    if (op == 123) { ;; withraw toncoins
         throw_unless(75, equal_slices(sender_address, admin_address));
         int amount = in_msg_body~load_coins();
         var msg = begin_cell()
