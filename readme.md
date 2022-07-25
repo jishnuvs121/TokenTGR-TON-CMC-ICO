@@ -17,8 +17,16 @@
 </p>
 <p align="left">
 The ICO minter is based on the usual minter.
-Added functionality to sell at a fixed price
-Allocation restriction functionality added
-Added function to limit ICO allocation
-Added time limit functionality
+  </p>
+<p align="left">
+  Added functionality to sell at a fixed price
+  </p>
+<p align="left">
+  Allocation restriction functionality added
+  </p>
+<p align="left">
+  Added function to limit ICO allocation
+  </p>
+<p align="left">
+  Added time limit functionality
 </p>
