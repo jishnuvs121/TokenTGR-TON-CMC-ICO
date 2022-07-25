@@ -1,4 +1,4 @@
-<h1 align="center">Tegro TGR (smart-contract ICO) TON</h1>
+<h1 align="left">Tegro TGR (smart-contract ICO) TON</h1>
 <h3 align="center">Tegro TGR (smart-contract ICO) TON</h3>
 
 - 📄 Token Tegro TGR [https://tegro.io](https://tegro.io)
